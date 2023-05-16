@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QWidget, QGridLayout, QApplication, QVBoxLayout
 from GroupBox import GroupBox
 from Label import Label
+from HBoxLayout import HBoxLayout
 
 
 class MainWindow(QMainWindow):
@@ -21,13 +22,35 @@ class MainWindow(QMainWindow):
 
         label = Label('Обьекты отслеживания')
         layout.addWidget(label, 0, 7)
-        layout.addWidget(GroupBox(), 1, 7, 24, 2)
+
+        objectsGroupBox = GroupBox()
+
+        layoutGroupBox = QVBoxLayout(objectsGroupBox)
+
+        layoutGroupBox.addWidget(HBoxLayout("Пешеходы", "#f4c8bd"))
+        layoutGroupBox.addSpacing(-15)
+
+        layoutGroupBox.addWidget(HBoxLayout("Велосипеды", "#a0bfdc"))
+        layoutGroupBox.addSpacing(-15)
+
+        layoutGroupBox.addWidget(HBoxLayout("Легковые автомобили", "#a9d193"))
+        layoutGroupBox.addSpacing(-15)
+
+        layoutGroupBox.addWidget(HBoxLayout("Мотоциклы", "#b599c1"))
+        layoutGroupBox.addSpacing(-15)
+
+        layoutGroupBox.addWidget(HBoxLayout("Автобусы", "#f9eeae"))
+        layoutGroupBox.addSpacing(-15)
+
+        layoutGroupBox.addWidget(HBoxLayout("Грузовые автомобили", "#f5be6b"))
+
+        layout.addWidget(objectsGroupBox, 1, 7, 25, 2)
 
         label = Label('Статистика')
         layout.addWidget(label, 26, 7)
-        layout.addWidget(GroupBox(), 27, 7, 24, 2)
+        layout.addWidget(GroupBox(), 27, 7, 26, 2)
 
-        layout.addWidget(GroupBox(), 47, 0, 4, 7)
+        layout.addWidget(GroupBox(), 47, 0, 6, 7)
 
         widget = QWidget()
         widget.setLayout(layout)
