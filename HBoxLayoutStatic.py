@@ -3,7 +3,7 @@ from PyQt5 import QtCore
 from Label import Label
 
 
-class HBoxLayout(QWidget):
+class HBoxLayoutStatic(QWidget):
     """
     Класс для настройки QHBoxLayout
     """
@@ -13,19 +13,18 @@ class HBoxLayout(QWidget):
 
         layout = QHBoxLayout()
 
-        checkBox = QCheckBox('')
-        checkBox.setFixedSize(20, 20)
-        layout.addWidget(checkBox)
-        layout.setSpacing(-10)
+        groupBox = QGroupBox()
+        groupBox.setFixedSize(5, 20)
+        groupBox.setStyleSheet('QGroupBox {background-color: ' + color + '; border-radius: 4px;}')
+        layout.addWidget(groupBox,  QtCore.Qt.AlignRight)
 
         label = Label(text)
         label.setColor('#ffffff')
         layout.addWidget(label, QtCore.Qt.AlignLeft)
 
-        groupBox = QGroupBox()
-        groupBox.setFixedSize(20, 20)
-        groupBox.setStyleSheet('QGroupBox {background-color: ' + color + '; border-radius: 4px;}')
-        layout.addWidget(groupBox,  QtCore.Qt.AlignRight)
+        label = Label('0')
+        label.setColor('#ffffff')
+        layout.addWidget(label)
 
         self.setLayout(layout)
 
