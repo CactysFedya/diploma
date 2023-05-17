@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QGridLayout,
                              QApplication, QVBoxLayout, QMenuBar,
-                             QAction, QMenu, QFileDialog, QHBoxLayout)
+                             QAction, QMenu, QFileDialog, QHBoxLayout, QPushButton)
 from PyQt5.QtGui import QImage, QPixmap, QIcon, QFont
 from GroupBox import GroupBox
 from Label import Label
 from HBoxLayoutObject import HBoxLayoutObject
 from HBoxLayoutStatic import HBoxLayoutStatic
-
+from PushButton import  PushButton
 
 class MainWindow(QMainWindow):
     """
@@ -16,12 +16,13 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.resize(1000, 0)
+        self.resize(0, 0)
 
         self.PATH_TO_VIDEO = None
 
         menuBar = QMenuBar(self)
         self.setMenuBar(menuBar)
+        menuBar.setFont(QFont("Roboto", 10))
         # Creating actions using the second constructor
         self.openAction = QAction("&Открыть...", self)
         self.openAction.triggered.connect(self.openFile)
@@ -45,22 +46,39 @@ class MainWindow(QMainWindow):
 
         layoutObjectGroupBox = QVBoxLayout(objectsGroupBox)
 
-        layoutObjectGroupBox.addWidget(HBoxLayoutObject("Пешеходы", "#f4c8bd"))
-        layoutObjectGroupBox.addSpacing(-15)
+        btn = PushButton("Пешеходы", "#f4c8bd")
+        layoutObjectGroupBox.addWidget(btn)
 
-        layoutObjectGroupBox.addWidget(HBoxLayoutObject("Велосипеды", "#a0bfdc"))
-        layoutObjectGroupBox.addSpacing(-15)
+        btn = PushButton("Велосипеды", "#a0bfdc")
+        layoutObjectGroupBox.addWidget(btn)
 
-        layoutObjectGroupBox.addWidget(HBoxLayoutObject("Легковые автомобили", "#a9d193"))
-        layoutObjectGroupBox.addSpacing(-15)
+        btn = PushButton("Легковые автомобили", "#a9d193")
+        layoutObjectGroupBox.addWidget(btn)
 
-        layoutObjectGroupBox.addWidget(HBoxLayoutObject("Мотоциклы", "#b599c1"))
-        layoutObjectGroupBox.addSpacing(-15)
+        btn = PushButton("Мотоциклы", "#b599c1")
+        layoutObjectGroupBox.addWidget(btn)
 
-        layoutObjectGroupBox.addWidget(HBoxLayoutObject("Автобусы", "#f9eeae"))
-        layoutObjectGroupBox.addSpacing(-15)
+        btn = PushButton("Автобусы", "#f9eeae")
+        layoutObjectGroupBox.addWidget(btn)
 
-        layoutObjectGroupBox.addWidget(HBoxLayoutObject("Грузовые автомобили", "#f5be6b"))
+        btn = PushButton("Грузовые автомобили", "#f5be6b")
+        layoutObjectGroupBox.addWidget(btn)
+
+        # layoutObjectGroupBox.addSpacing(-15)
+        #
+        # layoutObjectGroupBox.addWidget(HBoxLayoutObject("Велосипеды", "#a0bfdc"))
+        # layoutObjectGroupBox.addSpacing(-15)
+        #
+        # layoutObjectGroupBox.addWidget(HBoxLayoutObject("Легковые автомобили", "#a9d193"))
+        # layoutObjectGroupBox.addSpacing(-15)
+        #
+        # layoutObjectGroupBox.addWidget(HBoxLayoutObject("Мотоциклы", "#b599c1"))
+        # layoutObjectGroupBox.addSpacing(-15)
+        #
+        # layoutObjectGroupBox.addWidget(HBoxLayoutObject("Автобусы", "#f9eeae"))
+        # layoutObjectGroupBox.addSpacing(-15)
+        #
+        # layoutObjectGroupBox.addWidget(HBoxLayoutObject("Грузовые автомобили", "#f5be6b"))
 
         mainLayout.addWidget(objectsGroupBox, 1, 10, 25, 2)
 
@@ -69,36 +87,31 @@ class MainWindow(QMainWindow):
         staticGroupBox = GroupBox()
 
         layoutStaticGroupBox = QVBoxLayout(staticGroupBox)
-
-        layout = QHBoxLayout()
-        label = Label('Обьект отслеживания')
-        label.setColor('#ffffff')
-        layout.addWidget(label)
-        layout.addSpacing(10)
-
-        label = Label('На кадре')
-        label.setColor('#ffffff')
-        layout.addWidget(label)
-
-        widget = QWidget()
-        widget.setLayout(layout)
-        layoutStaticGroupBox.addWidget(widget)
-        layoutStaticGroupBox.addSpacing(-15)
-
+        #
+        # layout = QHBoxLayout()
+        # label = Label('Обьект отслеживания')
+        # label.setColor('#ffffff')
+        # layout.addWidget(label)
+        # layout.addSpacing(10)
+        #
+        # label = Label('На кадре')
+        # label.setColor('#ffffff')
+        # layout.addWidget(label)
+        #
+        # widget = QWidget()
+        # widget.setLayout(layout)
+        # layoutStaticGroupBox.addWidget(widget)
+        # layoutStaticGroupBox.addSpacing(-15)
+        #
         layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Пешеходы", "#f4c8bd"))
-        layoutStaticGroupBox.addSpacing(-15)
 
         layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Велосипеды", "#a0bfdc"))
-        layoutStaticGroupBox.addSpacing(-15)
 
         layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Легковые автомобили", "#a9d193"))
-        layoutStaticGroupBox.addSpacing(-15)
 
         layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Мотоциклы", "#b599c1"))
-        layoutStaticGroupBox.addSpacing(-15)
 
         layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Автобусы", "#f9eeae"))
-        layoutStaticGroupBox.addSpacing(-15)
 
         layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Грузовые автомобили", "#f5be6b"))
 

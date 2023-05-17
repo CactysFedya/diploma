@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import QHBoxLayout, QCheckBox, QGroupBox, QWidget
 from PyQt5 import QtCore
+from PyQt5.QtGui import QPalette, QColor
 from Label import Label
 
 
-class HBoxLayoutStatic(QWidget):
+class HBoxLayoutStatic(QGroupBox):
     """
     Класс для настройки QHBoxLayout
     """
@@ -11,21 +12,21 @@ class HBoxLayoutStatic(QWidget):
     def __init__(self, text='', color='#ffffff'):
         super().__init__()
 
-        layout = QHBoxLayout()
+        layout = QHBoxLayout(self)
 
-        groupBox = QGroupBox()
-        groupBox.setFixedSize(5, 20)
-        groupBox.setStyleSheet('QGroupBox {background-color: ' + color + '; border-radius: 4px;}')
-        layout.addWidget(groupBox,  QtCore.Qt.AlignRight)
+        # groupBox = QGroupBox()
+        # self.setFixedSize(20, 100)
+
+        # layout.addWidget(groupBox,  QtCore.Qt.AlignRight)
 
         label = Label(text)
-        label.setColor('#ffffff')
+        label.setColor('#000000')
         layout.addWidget(label, QtCore.Qt.AlignLeft)
 
         label = Label('0')
-        label.setColor('#ffffff')
+        label.setColor('#000000')
         layout.addWidget(label)
+        self.setStyleSheet('QGroupBox {background-color: ' + color + '; border-radius: 4px; border: 15px}')
 
-        self.setLayout(layout)
 
 
