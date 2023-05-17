@@ -16,7 +16,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.resize(1000, 470)
+        self.resize(1000, 0)
 
         self.PATH_TO_VIDEO = None
 
