@@ -37,14 +37,14 @@ class MainWindow(QMainWindow):
 
         videoPlayer = GroupBox()
         videoPlayer.setColor('black')
-        mainLayout.addWidget(videoPlayer, 1, 0, 52, 10)
+        mainLayout.addWidget(videoPlayer, 2, 0, 52, 10)
 
         label = Label('Обьекты отслеживания')
-        mainLayout.addWidget(label, 0, 10)
+        mainLayout.addWidget(label, 0, 0)
 
         objectsGroupBox = GroupBox()
 
-        layoutObjectGroupBox = QVBoxLayout(objectsGroupBox)
+        layoutObjectGroupBox = QHBoxLayout(objectsGroupBox)
 
         btn = PushButton("Пешеходы", "#f4c8bd")
         layoutObjectGroupBox.addWidget(btn)
@@ -80,10 +80,10 @@ class MainWindow(QMainWindow):
         #
         # layoutObjectGroupBox.addWidget(HBoxLayoutObject("Грузовые автомобили", "#f5be6b"))
 
-        mainLayout.addWidget(objectsGroupBox, 1, 10, 25, 2)
+        mainLayout.addWidget(objectsGroupBox, 1, 0, 1, 10)
 
         label = Label('Статистика')
-        mainLayout.addWidget(label, 28, 10)
+        mainLayout.addWidget(label, 0, 10)
         staticGroupBox = GroupBox()
 
         layoutStaticGroupBox = QVBoxLayout(staticGroupBox)
@@ -115,9 +115,9 @@ class MainWindow(QMainWindow):
 
         layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Грузовые автомобили", "#f5be6b"))
 
-        mainLayout.addWidget(staticGroupBox, 29, 10, 30, 2)
+        mainLayout.addWidget(staticGroupBox, 1, 10, 30, 2)
 
-        mainLayout.addWidget(GroupBox(), 53, 0, 6, 10)
+        mainLayout.addWidget(GroupBox(), 54, 0, 6, 10)
 
         widget = QWidget()
         widget.setLayout(mainLayout)
