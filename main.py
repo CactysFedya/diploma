@@ -1,12 +1,13 @@
-from PyQt5.QtWidgets import (QMainWindow, QWidget, QGridLayout,
+from PyQt5.QtWidgets import (QMainWindow, QWidget, QGridLayout, QSlider,
                              QApplication, QVBoxLayout, QMenuBar,
-                             QAction, QMenu, QFileDialog, QHBoxLayout, QPushButton)
+                             QAction, QMenu, QFileDialog, QHBoxLayout, QLabel, QPushButton)
 from PyQt5.QtGui import QImage, QPixmap, QIcon, QFont
+from PyQt5.QtCore import Qt
 from GroupBox import GroupBox
 from Label import Label
-from HBoxLayoutObject import HBoxLayoutObject
 from HBoxLayoutStatic import HBoxLayoutStatic
-from PushButton import  PushButton
+from PushButton import PushButton
+
 
 class MainWindow(QMainWindow):
     """
@@ -16,9 +17,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.resize(0, 0)
-
-        self.PATH_TO_VIDEO = None
+        self.resize(1000, 0)
 
         menuBar = QMenuBar(self)
         self.setMenuBar(menuBar)
@@ -37,7 +36,7 @@ class MainWindow(QMainWindow):
 
         videoPlayer = GroupBox()
         videoPlayer.setColor('black')
-        mainLayout.addWidget(videoPlayer, 1, 0, 52, 10)
+        mainLayout.addWidget(videoPlayer, 1, 0, 53, 10)
 
         label = Label('Обьекты отслеживания')
         mainLayout.addWidget(label, 0, 10)
@@ -64,22 +63,6 @@ class MainWindow(QMainWindow):
         btn = PushButton("Грузовые автомобили", "#f5be6b")
         layoutObjectGroupBox.addWidget(btn)
 
-        # layoutObjectGroupBox.addSpacing(-15)
-        #
-        # layoutObjectGroupBox.addWidget(HBoxLayoutObject("Велосипеды", "#a0bfdc"))
-        # layoutObjectGroupBox.addSpacing(-15)
-        #
-        # layoutObjectGroupBox.addWidget(HBoxLayoutObject("Легковые автомобили", "#a9d193"))
-        # layoutObjectGroupBox.addSpacing(-15)
-        #
-        # layoutObjectGroupBox.addWidget(HBoxLayoutObject("Мотоциклы", "#b599c1"))
-        # layoutObjectGroupBox.addSpacing(-15)
-        #
-        # layoutObjectGroupBox.addWidget(HBoxLayoutObject("Автобусы", "#f9eeae"))
-        # layoutObjectGroupBox.addSpacing(-15)
-        #
-        # layoutObjectGroupBox.addWidget(HBoxLayoutObject("Грузовые автомобили", "#f5be6b"))
-
         mainLayout.addWidget(objectsGroupBox, 1, 10, 25, 2)
 
         label = Label('Статистика')
@@ -87,22 +70,7 @@ class MainWindow(QMainWindow):
         staticGroupBox = GroupBox()
 
         layoutStaticGroupBox = QVBoxLayout(staticGroupBox)
-        #
-        # layout = QHBoxLayout()
-        # label = Label('Обьект отслеживания')
-        # label.setColor('#ffffff')
-        # layout.addWidget(label)
-        # layout.addSpacing(10)
-        #
-        # label = Label('На кадре')
-        # label.setColor('#ffffff')
-        # layout.addWidget(label)
-        #
-        # widget = QWidget()
-        # widget.setLayout(layout)
-        # layoutStaticGroupBox.addWidget(widget)
-        # layoutStaticGroupBox.addSpacing(-15)
-        #
+
         layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Пешеходы", "#f4c8bd"))
 
         layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Велосипеды", "#a0bfdc"))
@@ -117,11 +85,36 @@ class MainWindow(QMainWindow):
 
         mainLayout.addWidget(staticGroupBox, 29, 10, 30, 2)
 
-        mainLayout.addWidget(GroupBox(), 53, 0, 6, 10)
+        groupBox = GroupBox()
+        layoutGroupBox = QHBoxLayout(groupBox)
+
+        self.btn_start = QPushButton()
+        # self.btn_start.clicked.connect(self.playVideo)
+        self.btn_start.setStyleSheet("border-image : url(icon/icons8-воспроизведение-50.png);")
+        self.btn_start.setFixedSize(30, 30)
+        layoutGroupBox.addWidget(self.btn_start)
+
+        self.time_start = QLabel("00:00")
+        self.time_start.setFont(QFont("Roboto", 12))
+        self.time_start.setStyleSheet('QLabel {background-color: #3a567f; color: #ffffff;}')
+        layoutGroupBox.addWidget(self.time_start)
+
+        self.slider = QSlider(Qt.Horizontal)
+        layoutGroupBox.addWidget(self.slider)
+
+        self.time_stop = QLabel("00:00")
+        self.time_stop.setFont(QFont("Roboto", 12))
+        self.time_stop.setStyleSheet('QLabel {background-color: #3a567f; color: #ffffff;}')
+        layoutGroupBox.addWidget(self.time_stop)
+
+        mainLayout.addWidget(groupBox, 54, 0, 5, 10)
 
         widget = QWidget()
         widget.setLayout(mainLayout)
         self.setCentralWidget(widget)
+
+    def setImage(self, image):
+        self.label_video.setPixmap(QPixmap.fromImage(image))
 
     def openFile(self):
         """
