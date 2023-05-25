@@ -3,10 +3,12 @@ from PyQt5.QtWidgets import (QMainWindow, QWidget, QGridLayout, QSlider,
                              QAction, QMenu, QFileDialog, QHBoxLayout, QLabel, QPushButton)
 from PyQt5.QtGui import QImage, QPixmap, QIcon, QFont
 from PyQt5.QtCore import Qt
+import os
 from GroupBox import GroupBox
 from Label import Label
 from HBoxLayoutStatic import HBoxLayoutStatic
 from PushButton import PushButton
+from ThreadOpenCV import ThreadOpenCV
 
 
 class MainWindow(QMainWindow):
@@ -37,6 +39,21 @@ class MainWindow(QMainWindow):
         videoPlayer = GroupBox()
         videoPlayer.setColor('black')
         mainLayout.addWidget(videoPlayer, 1, 0, 53, 10)
+
+        layoutVideoPlayer = QVBoxLayout(videoPlayer)
+        layoutVideoPlayer.setAlignment(Qt.AlignCenter)
+
+        self.label_video = QLabel()
+        layoutVideoPlayer.addWidget(self.label_video)
+
+        VIDEO_NAME = '4_ons_black_bg_1920x1080.png'
+        CWD_PATH = os.getcwd()
+        self.PATH_TO_VIDEO = os.path.join(CWD_PATH, VIDEO_NAME)
+        self.thread = ThreadOpenCV(self.PATH_TO_VIDEO)
+        self.thread.start()
+        # self.thread.setTime([self.time_start, self.slider, self.time_stop])
+        self.thread.changePixmap.connect(self.setImage)
+        self.thread.running = False
 
         label = Label('Обьекты отслеживания')
         mainLayout.addWidget(label, 0, 10)
@@ -93,6 +110,7 @@ class MainWindow(QMainWindow):
         self.btn_start.setStyleSheet("border-image : url(icon/icons8-воспроизведение-50.png);")
         self.btn_start.setFixedSize(30, 30)
         layoutGroupBox.addWidget(self.btn_start)
+        self.btn_start.clicked.connect(self.playVideo)
 
         self.time_start = QLabel("00:00")
         self.time_start.setFont(QFont("Roboto", 12))
@@ -123,8 +141,26 @@ class MainWindow(QMainWindow):
         """
         try:
             self.PATH_TO_VIDEO = QFileDialog.getOpenFileName(self, 'Open file')[0]
+            self.thread.read(self.PATH_TO_VIDEO)
         except:
             pass
+
+    def playVideo(self):
+
+        if self.thread.running == False:
+            self.thread.running = True
+            self.btn_start.setStyleSheet("border-image : url(icon/icons8-пауза-50.png);")
+            # self.thread.setCheckState([self.checkbox_person, self.checkbox_bicycle, self.checkbox_car,
+            #                         self.checkbox_motorbike, self.checkbox_bus, self.checkbox_truck],
+            #                           [self.count_person, self.count_bicycle, self.count_car,
+            #                            self.count_motorbike, self.count_bus, self.count_truck]
+            #                           )
+
+            self.thread.read(self.PATH_TO_VIDEO)
+            self.thread.start()
+        else:
+            self.thread.running = False
+            self.btn_start.setStyleSheet("border-image : url(icon/icons8-воспроизведение-50.png);")
 
 
 if __name__ == '__main__':
