@@ -18,7 +18,6 @@ class GroupBox(QGroupBox):
         # Цвет по умолчанию
         self.color = '#3a567f'
         self.setStyleSheet('QGroupBox {background-color: ' + self.color + '; border-radius: 4px;}')
-
         # Шрифт по умолчанию
         self.setFont(QFont("Roboto", 9))
 

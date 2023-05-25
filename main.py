@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.resize(1000, 0)
+        self.resize(1315, 700)
 
         menuBar = QMenuBar(self)
         self.setMenuBar(menuBar)
@@ -59,48 +59,63 @@ class MainWindow(QMainWindow):
         mainLayout.addWidget(label, 0, 10)
 
         objectsGroupBox = GroupBox()
+        objectsGroupBox.setMinimumHeight(250)
 
         layoutObjectGroupBox = QVBoxLayout(objectsGroupBox)
 
-        btn = PushButton("Пешеходы", "#f4c8bd")
+        staticGroupBox = GroupBox()
+        staticGroupBox.setMinimumHeight(250)
+
+        layoutStaticGroupBox = QVBoxLayout(staticGroupBox)
+
+        countPerson = HBoxLayoutStatic("Пешеходы", "#f4c8bd")
+        layoutStaticGroupBox.addWidget(countPerson)
+        countPerson.hide()
+
+        countBicycle = HBoxLayoutStatic("Велосипеды", "#a0bfdc")
+        layoutStaticGroupBox.addWidget(countBicycle)
+        countBicycle.hide()
+
+        countCar = HBoxLayoutStatic("Легковые автомобили", "#a9d193")
+        layoutStaticGroupBox.addWidget(countCar)
+        countCar.hide()
+
+        countMotorbike = HBoxLayoutStatic("Мотоциклы", "#b599c1")
+        layoutStaticGroupBox.addWidget(countMotorbike)
+        countMotorbike.hide()
+
+        countBus = HBoxLayoutStatic("Автобусы", "#f9eeae")
+        layoutStaticGroupBox.addWidget(countBus)
+        countBus.hide()
+
+        countTruck = HBoxLayoutStatic("Грузовые автомобили", "#f5be6b")
+        layoutStaticGroupBox.addWidget(countTruck)
+        countTruck.hide()
+
+        mainLayout.addWidget(staticGroupBox, 29, 10, 30, 2)
+
+        btn = PushButton("Пешеходы", "#f4c8bd", countPerson)
         layoutObjectGroupBox.addWidget(btn)
 
-        btn = PushButton("Велосипеды", "#a0bfdc")
+        btn = PushButton("Велосипеды", "#a0bfdc", countBicycle)
         layoutObjectGroupBox.addWidget(btn)
 
-        btn = PushButton("Легковые автомобили", "#a9d193")
+        btn = PushButton("Легковые автомобили", "#a9d193", countCar)
         layoutObjectGroupBox.addWidget(btn)
 
-        btn = PushButton("Мотоциклы", "#b599c1")
+        btn = PushButton("Мотоциклы", "#b599c1", countMotorbike)
         layoutObjectGroupBox.addWidget(btn)
 
-        btn = PushButton("Автобусы", "#f9eeae")
+        btn = PushButton("Автобусы", "#f9eeae", countBus)
         layoutObjectGroupBox.addWidget(btn)
 
-        btn = PushButton("Грузовые автомобили", "#f5be6b")
+        btn = PushButton("Грузовые автомобили", "#f5be6b", countTruck)
         layoutObjectGroupBox.addWidget(btn)
 
         mainLayout.addWidget(objectsGroupBox, 1, 10, 25, 2)
 
         label = Label('Статистика')
         mainLayout.addWidget(label, 28, 10)
-        staticGroupBox = GroupBox()
-
-        layoutStaticGroupBox = QVBoxLayout(staticGroupBox)
-
-        layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Пешеходы", "#f4c8bd"))
-
-        layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Велосипеды", "#a0bfdc"))
-
-        layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Легковые автомобили", "#a9d193"))
-
-        layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Мотоциклы", "#b599c1"))
-
-        layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Автобусы", "#f9eeae"))
-
-        layoutStaticGroupBox.addWidget(HBoxLayoutStatic("Грузовые автомобили", "#f5be6b"))
-
-        mainLayout.addWidget(staticGroupBox, 29, 10, 30, 2)
 
         groupBox = GroupBox()
         layoutGroupBox = QHBoxLayout(groupBox)

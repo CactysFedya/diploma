@@ -22,6 +22,7 @@ class HBoxLayoutStatic(QGroupBox):
         label = Label(text)
         label.setColor('#000000')
         layout.addWidget(label, QtCore.Qt.AlignLeft)
+        # self.setMaximumHeight(40)
 
         label = Label('0')
         label.setColor('#000000')
