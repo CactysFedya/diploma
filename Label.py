@@ -5,25 +5,36 @@ from PyQt5.QtGui import QFont
 class Label(QLabel):
     """
     Класс для настройки Qlabel
+
+    __color: цвет
+    __size: размер
+
+    :arg
+        text (str): заголовок GroupBox
+        parent: родительский класс
+
     """
 
-    def __init__(self, text='', parent=None):
+    __color = ''
+    __size = 0
+
+    def __init__(self, text='', parent=None) -> None:
         super().__init__(text, parent)
 
-        # Размер шрифта по умолчанию
-        self.setFont(QFont("Roboto", 12))
+        self.setFont(QFont("Roboto", 13))  # Размер шрифта по умолчанию
 
-    def setColor(self, color):
+    def setColor(self, color: str) -> None:
         """
-        Функция нужна, для того чтобы задать цвет
+        Сеттер для установления цвета внутри Qlabel
         :param color: цвет
         """
-        self.color = color
-        self.setStyleSheet('QLabel {color: ' + self.color + '; border-radius: 4px;}')
+        self.__color = color
+        self.setStyleSheet('QLabel {color: ' + self.__color + '; border-radius: 4px;}')
 
-    def setSize(self, size):
+    def setSize(self, size: int) -> None:
         """
-        Функция нужна, для того чтобы задать размер шрифта
+        Сеттер для установления размера шрифта внутри Qlabel
         :param size: размер
         """
-        self.setFont(QFont("Roboto", size))
+        self.__size = size
+        self.setFont(QFont("Roboto", self.__size))

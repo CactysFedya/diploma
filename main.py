@@ -46,14 +46,7 @@ class MainWindow(QMainWindow):
         self.label_video = QLabel()
         layoutVideoPlayer.addWidget(self.label_video)
 
-        VIDEO_NAME = '4_ons_black_bg_1920x1080.png'
-        CWD_PATH = os.getcwd()
-        self.PATH_TO_VIDEO = os.path.join(CWD_PATH, VIDEO_NAME)
-        self.thread = ThreadOpenCV(self.PATH_TO_VIDEO)
-        self.thread.start()
-        # self.thread.setTime([self.time_start, self.slider, self.time_stop])
-        self.thread.changePixmap.connect(self.setImage)
-        self.thread.running = False
+        self.PATH_TO_VIDEO = ''
 
         label = Label('Обьекты отслеживания')
         mainLayout.addWidget(label, 0, 10)
@@ -68,25 +61,25 @@ class MainWindow(QMainWindow):
 
         layoutStaticGroupBox = QVBoxLayout(staticGroupBox)
 
-        countPerson = HBoxLayoutStatic("Пешеходы", "#f4c8bd")
-        layoutStaticGroupBox.addWidget(countPerson)
-        countPerson.hide()
+        self.countPerson = HBoxLayoutStatic("Пешеходы", "#f4c8bd")
+        layoutStaticGroupBox.addWidget(self.countPerson)
+        self.countPerson.hide()
 
-        countBicycle = HBoxLayoutStatic("Велосипеды", "#a0bfdc")
-        layoutStaticGroupBox.addWidget(countBicycle)
-        countBicycle.hide()
+        self.countBicycle = HBoxLayoutStatic("Велосипеды", "#a0bfdc")
+        layoutStaticGroupBox.addWidget(self.countBicycle)
+        self.countBicycle.hide()
 
-        countCar = HBoxLayoutStatic("Легковые автомобили", "#a9d193")
-        layoutStaticGroupBox.addWidget(countCar)
-        countCar.hide()
+        self.countCar = HBoxLayoutStatic("Легковые автомобили", "#a9d193")
+        layoutStaticGroupBox.addWidget(self.countCar)
+        self.countCar.hide()
 
-        countMotorbike = HBoxLayoutStatic("Мотоциклы", "#b599c1")
-        layoutStaticGroupBox.addWidget(countMotorbike)
-        countMotorbike.hide()
+        self.countMotorbike = HBoxLayoutStatic("Мотоциклы", "#b599c1")
+        layoutStaticGroupBox.addWidget(self.countMotorbike)
+        self.countMotorbike.hide()
 
-        countBus = HBoxLayoutStatic("Автобусы", "#f9eeae")
-        layoutStaticGroupBox.addWidget(countBus)
-        countBus.hide()
+        self.countBus = HBoxLayoutStatic("Автобусы", "#f9eeae")
+        layoutStaticGroupBox.addWidget(self.countBus)
+        self.countBus.hide()
 
         countTruck = HBoxLayoutStatic("Грузовые автомобили", "#f5be6b")
         layoutStaticGroupBox.addWidget(countTruck)
@@ -94,23 +87,29 @@ class MainWindow(QMainWindow):
 
         mainLayout.addWidget(staticGroupBox, 29, 10, 30, 2)
 
-        btn = PushButton("Пешеходы", "#f4c8bd", countPerson)
-        layoutObjectGroupBox.addWidget(btn)
+        self.btnPerson = PushButton("Пешеходы", "#f4c8bd")
+        self.btnPerson.setConnect(self.countPerson)
+        layoutObjectGroupBox.addWidget(self.btnPerson)
 
-        btn = PushButton("Велосипеды", "#a0bfdc", countBicycle)
-        layoutObjectGroupBox.addWidget(btn)
+        self.btnBicycle = PushButton("Велосипеды", "#a0bfdc")
+        self.btnBicycle.setConnect(self.countBicycle)
+        layoutObjectGroupBox.addWidget(self.btnBicycle)
 
-        btn = PushButton("Легковые автомобили", "#a9d193", countCar)
-        layoutObjectGroupBox.addWidget(btn)
+        self.btnCar = PushButton("Легковые автомобили", "#a9d193")
+        self.btnCar.setConnect(self.countCar)
+        layoutObjectGroupBox.addWidget(self.btnCar)
 
-        btn = PushButton("Мотоциклы", "#b599c1", countMotorbike)
-        layoutObjectGroupBox.addWidget(btn)
+        self.btnMotorbike = PushButton("Мотоциклы", "#b599c1")
+        self.btnMotorbike.setConnect(self.countMotorbike)
+        layoutObjectGroupBox.addWidget(self.btnMotorbike)
 
-        btn = PushButton("Автобусы", "#f9eeae", countBus)
-        layoutObjectGroupBox.addWidget(btn)
+        self.btnBus = PushButton("Автобусы", "#f9eeae")
+        self.btnBus.setConnect(self.countBus)
+        layoutObjectGroupBox.addWidget(self.btnBus)
 
-        btn = PushButton("Грузовые автомобили", "#f5be6b", countTruck)
-        layoutObjectGroupBox.addWidget(btn)
+        self.btnTruck = PushButton("Грузовые автомобили", "#f5be6b")
+        self.btnTruck.setConnect(countTruck)
+        layoutObjectGroupBox.addWidget(self.btnTruck)
 
         mainLayout.addWidget(objectsGroupBox, 1, 10, 25, 2)
 
@@ -121,7 +120,6 @@ class MainWindow(QMainWindow):
         layoutGroupBox = QHBoxLayout(groupBox)
 
         self.btn_start = QPushButton()
-        # self.btn_start.clicked.connect(self.playVideo)
         self.btn_start.setStyleSheet("border-image : url(icon/icons8-воспроизведение-50.png);")
         self.btn_start.setFixedSize(30, 30)
         layoutGroupBox.addWidget(self.btn_start)
@@ -146,7 +144,17 @@ class MainWindow(QMainWindow):
         widget.setLayout(mainLayout)
         self.setCentralWidget(widget)
 
+        self.thread = ThreadOpenCV(self.PATH_TO_VIDEO)
+        self.thread.setTime([self.time_start, self.slider, self.time_stop])
+        self.thread.changePixmap.connect(self.setImage)
+        self.thread.running = False
+
     def setImage(self, image):
+        """
+
+        :param image:
+        :return:
+        """
         self.label_video.setPixmap(QPixmap.fromImage(image))
 
     def openFile(self):
@@ -161,15 +169,15 @@ class MainWindow(QMainWindow):
             pass
 
     def playVideo(self):
+        """
 
+        :return:
+        """
         if self.thread.running == False:
             self.thread.running = True
             self.btn_start.setStyleSheet("border-image : url(icon/icons8-пауза-50.png);")
-            # self.thread.setCheckState([self.checkbox_person, self.checkbox_bicycle, self.checkbox_car,
-            #                         self.checkbox_motorbike, self.checkbox_bus, self.checkbox_truck],
-            #                           [self.count_person, self.count_bicycle, self.count_car,
-            #                            self.count_motorbike, self.count_bus, self.count_truck]
-            #                           )
+            self.thread.setCheckState([self.btnPerson, self.btnBicycle, self.btnCar,
+                                       self.btnMotorbike, self.btnBus, self.btnTruck])
 
             self.thread.read(self.PATH_TO_VIDEO)
             self.thread.start()

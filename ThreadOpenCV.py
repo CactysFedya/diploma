@@ -103,18 +103,24 @@ class ThreadOpenCV(QThread):
         return final_image
 
     def run(self):
+        """
+
+        :return:
+        """
         data = cv2.VideoCapture(self.source)
-        # frames = data.get(cv2.CAP_PROP_FRAME_COUNT)
-        # fps = data.get(cv2.CAP_PROP_FPS)
+
+        frames = data.get(cv2.CAP_PROP_FRAME_COUNT)
+        fps = data.get(cv2.CAP_PROP_FPS)
 
         # calculate duration of the video
-        # self.seconds = round(frames / fps)
-        # self.time[2].setText('{:02d}:{:02d}'.format(self.seconds//60, self.seconds % 60))
-        # self.time[1].setMinimum(0)
-        # self.time[1].setMaximum(self.seconds)
-        #
-        # self.time[1].setSingleStep(1)
-        # self.time_passed = 0
+        self.seconds = round(frames / fps)
+
+        self.time[2].setText('{:02d}:{:02d}'.format(self.seconds//60, self.seconds % 60))
+        self.time[1].setMinimum(0)
+        self.time[1].setMaximum(self.seconds)
+
+        self.time[1].setSingleStep(1)
+        self.time_passed = 0
 
         cap = cv2.VideoCapture(self.source)
         self.running = True
@@ -138,57 +144,68 @@ class ThreadOpenCV(QThread):
                 image = image.scaled(992, 558, Qt.KeepAspectRatio)
                 self.changePixmap.emit(image)
 
-                # self.time_passed += 0.0375
-                # self.time[2].setText(
-                #     '{:02d}:{:02d}'.format((self.seconds - int(self.time_passed)) // 60,
-                #                            (self.seconds - int(self.time_passed)) % 60))
-                # self.time[0].setText('{:02d}:{:02d}'.format(int(self.time_passed) // 60, int(self.time_passed) % 60))
-                # self.time[1].setValue(int(self.time_passed))
+                self.time_passed += 0.0375
+                self.time[2].setText(
+                    '{:02d}:{:02d}'.format((self.seconds - int(self.time_passed)) // 60,
+                                           (self.seconds - int(self.time_passed)) % 60))
+                self.time[0].setText('{:02d}:{:02d}'.format(int(self.time_passed) // 60, int(self.time_passed) % 60))
+                self.time[1].setValue(int(self.time_passed))
 
         cap.release()
 
     def stop(self):
+        """
+
+        :return:
+        """
         self.running = False
 
     def read(self, source):
-        self.source = source
-    #
-    # def setTime(self, time):
-    #     self.time = time
-    #
-    # def setCheckState(self, objects, count):
-    #     self.classes_to_look_for = []
-    #     self.color = []
-    #     self.countObject = []
-    #     if objects[0].isChecked():
-    #         self.classes_to_look_for.append('person')
-    #         self.color.append((244, 200, 189))
-    #         self.countObject.append(count[0])
-    #
-    #     if objects[1].isChecked():
-    #         self.classes_to_look_for.append('bicycle')
-    #         self.color.append((160, 191, 220))
-    #         self.countObject.append(count[1])
-    #
-    #     if objects[2].isChecked():
-    #         self.classes_to_look_for.append('car')
-    #         self.color.append((169, 209, 147))
-    #         self.countObject.append(count[2])
-    #
-    #     if objects[3].isChecked():
-    #         self.classes_to_look_for.append('motorbike')
-    #         self.color.append((181, 153, 193))
-    #         self.countObject.append(count[3])
-    #
-    #     if objects[4].isChecked():
-    #         self.classes_to_look_for.append('bus')
-    #         self.color.append((249, 238, 174))
-    #         self.countObject.append(count[4])
-    #
-    #     if objects[5].isChecked():
-    #         self.classes_to_look_for.append('truck')
-    #         self.color.append((245, 190, 107))
-    #         self.countObject.append(count[5])
+        """
 
-    # def setStatic(self, arrayStatic):
-    #     self.arrayStatic = arrayStatic
+        :param source:
+        :return:
+        """
+        self.source = source
+
+    def setTime(self, time):
+        """
+
+        :param time:
+        :return:
+        """
+        self.time = time
+
+    def setCheckState(self, objects):
+        self.classes_to_look_for = []
+        self.color = []
+        # self.countObject = []
+        if not objects[0].flag:
+            self.classes_to_look_for.append('person')
+            self.color.append((244, 200, 189))
+            # self.countObject.append(count[0])
+
+        if not objects[1].flag:
+            self.classes_to_look_for.append('bicycle')
+            self.color.append((160, 191, 220))
+            # self.countObject.append(count[1])
+
+        if not objects[2].flag:
+            self.classes_to_look_for.append('car')
+            self.color.append((169, 209, 147))
+            # self.countObject.append(count[2])
+
+        if not objects[3].flag:
+            self.classes_to_look_for.append('motorbike')
+            self.color.append((181, 153, 193))
+            # self.countObject.append(count[3])
+
+        if not objects[4].flag:
+            self.classes_to_look_for.append('bus')
+            self.color.append((249, 238, 174))
+            # self.countObject.append(count[4])
+
+        if not objects[5].flag:
+            self.classes_to_look_for.append('truck')
+            self.color.append((245, 190, 107))
+            # self.countObject.append(count[5])
