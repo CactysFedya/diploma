@@ -24,9 +24,9 @@ class HBoxLayoutStatic(QGroupBox):
         label.setColor('#000000')
         layout.addWidget(label, QtCore.Qt.AlignLeft)
 
-        countLabel = Label('0')
-        countLabel.setColor('#000000')
-        layout.addWidget(countLabel)
+        self.countLabel = Label('0')
+        self.countLabel.setColor('#000000')
+        layout.addWidget(self.countLabel)
         self.setColor(color)
 
     def setColor(self, color: str) -> None:

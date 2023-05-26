@@ -12,11 +12,13 @@ class ThreadOpenCV(QThread):
         super().__init__()
 
         self.source = source
-        # self.time = None
-        # self.checkState = None
-        # self.arrayStatic = None
-        self.color = [(244, 200, 189), (244, 200, 189), (244, 200, 189),(244, 200, 189), (244, 200, 189), (244, 200, 189)]
-        # self.countObject = None
+        self.color = []
+        self.countObject = {'person': 0,
+                            'bicycle': 0,
+                            'car': 0,
+                            'motorbike': 0,
+                            'bus': 0,
+                            'truck': 0}
 
         self.running = True
         self.grayscale = False
@@ -72,6 +74,7 @@ class ThreadOpenCV(QThread):
             class_index = class_indexes[box_index]
 
             if self.classes[class_index] in self.classes_to_look_for:
+                self.countObject[self.classes[class_index]] += 1
                 index = self.classes_to_look_for.index(self.classes[class_index])
                 image_to_process = self.draw_object_bounding_box(image_to_process, index, box)
 
@@ -151,6 +154,9 @@ class ThreadOpenCV(QThread):
                 self.time[0].setText('{:02d}:{:02d}'.format(int(self.time_passed) // 60, int(self.time_passed) % 60))
                 self.time[1].setValue(int(self.time_passed))
 
+                for item, key in enumerate(self.classes_to_look_for):
+                    self.countStatic[item].countLabel.setText(str(self.countObject[key]))
+                    self.countObject[key] = 0
         cap.release()
 
     def stop(self):
@@ -176,36 +182,36 @@ class ThreadOpenCV(QThread):
         """
         self.time = time
 
-    def setCheckState(self, objects):
+    def setCheckState(self, objects, count):
         self.classes_to_look_for = []
         self.color = []
-        # self.countObject = []
+        self.countStatic = []
         if not objects[0].flag:
             self.classes_to_look_for.append('person')
             self.color.append((244, 200, 189))
-            # self.countObject.append(count[0])
+            self.countStatic.append(count[0])
 
         if not objects[1].flag:
             self.classes_to_look_for.append('bicycle')
             self.color.append((160, 191, 220))
-            # self.countObject.append(count[1])
+            self.countStatic.append(count[1])
 
         if not objects[2].flag:
             self.classes_to_look_for.append('car')
             self.color.append((169, 209, 147))
-            # self.countObject.append(count[2])
+            self.countStatic.append(count[2])
 
         if not objects[3].flag:
             self.classes_to_look_for.append('motorbike')
             self.color.append((181, 153, 193))
-            # self.countObject.append(count[3])
+            self.countStatic.append(count[3])
 
         if not objects[4].flag:
             self.classes_to_look_for.append('bus')
             self.color.append((249, 238, 174))
-            # self.countObject.append(count[4])
+            self.countStatic.append(count[4])
 
         if not objects[5].flag:
             self.classes_to_look_for.append('truck')
             self.color.append((245, 190, 107))
-            # self.countObject.append(count[5])
+            self.countStatic.append(count[5])

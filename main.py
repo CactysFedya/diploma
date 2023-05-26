@@ -81,9 +81,9 @@ class MainWindow(QMainWindow):
         layoutStaticGroupBox.addWidget(self.countBus)
         self.countBus.hide()
 
-        countTruck = HBoxLayoutStatic("Грузовые автомобили", "#f5be6b")
-        layoutStaticGroupBox.addWidget(countTruck)
-        countTruck.hide()
+        self.countTruck = HBoxLayoutStatic("Грузовые автомобили", "#f5be6b")
+        layoutStaticGroupBox.addWidget(self.countTruck)
+        self.countTruck.hide()
 
         mainLayout.addWidget(staticGroupBox, 29, 10, 30, 2)
 
@@ -108,7 +108,7 @@ class MainWindow(QMainWindow):
         layoutObjectGroupBox.addWidget(self.btnBus)
 
         self.btnTruck = PushButton("Грузовые автомобили", "#f5be6b")
-        self.btnTruck.setConnect(countTruck)
+        self.btnTruck.setConnect(self.countTruck)
         layoutObjectGroupBox.addWidget(self.btnTruck)
 
         mainLayout.addWidget(objectsGroupBox, 1, 10, 25, 2)
@@ -177,7 +177,9 @@ class MainWindow(QMainWindow):
             self.thread.running = True
             self.btn_start.setStyleSheet("border-image : url(icon/icons8-пауза-50.png);")
             self.thread.setCheckState([self.btnPerson, self.btnBicycle, self.btnCar,
-                                       self.btnMotorbike, self.btnBus, self.btnTruck])
+                                       self.btnMotorbike, self.btnBus, self.btnTruck],
+                                      [self.countPerson, self.countBicycle, self.countCar,
+                                       self.countMotorbike, self.countBus, self.countTruck])
 
             self.thread.read(self.PATH_TO_VIDEO)
             self.thread.start()
