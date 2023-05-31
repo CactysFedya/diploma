@@ -31,6 +31,12 @@ class MainWindow(QMainWindow):
         fileMenu = QMenu("&Файл", self)
         fileMenu.setFont(QFont("Roboto", 10))
         menuBar.addMenu(fileMenu)
+        result = QMenu("&Результат", self)
+        result.setFont(QFont("Roboto", 10))
+        menuBar.addMenu(result)
+        _help = QMenu("&Помощь", self)
+        _help.setFont(QFont("Roboto", 10))
+        menuBar.addMenu(_help)
         fileMenu.addAction(self.openAction)
         fileMenu.addAction(self.saveAction)
 
